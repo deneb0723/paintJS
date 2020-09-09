@@ -6,6 +6,7 @@ const range = document.getElementById("jsRange");
 const mode = document.getElementById("JsMode");
 const save = document.getElementById("jsSave");
 
+// 중복 값 상수로 지정
 const INITIAL_COLOR = "#2c2c2c"
 const CANVAS_SIZE = 700;
 
@@ -20,14 +21,16 @@ ctx.strokeStyle = INITIAL_COLOR;
 ctx.fillStyle = INITIAL_COLOR;
 ctx.lineWidth = 2.5;
 
-// painting 변수 지정(기본값 = false)
+// 그리기, 채우기 변수 지정(기본값 = false)
 let painting = false;
 let filling = false;
 
+// 마우스 클릭을 멈췄을때 함수
 function stopPainting() {
     painting = false;
 }
-
+// 마우스를 클릭했을 때 painting 변수를 true로 바꿈
+// onMouseMove else 함수 실행
 function startPainting() {
     painting = true;
 }
@@ -49,17 +52,20 @@ function onMouseMove(event) {
 
 }
 
+// 채우기 버튼 함수
 function handleColorClick(event) {
     const color = event.target.style.backgroundColor;
     ctx.strokeStyle = color;
     ctx.fillStyle = color;
 }
 
+// range 버튼 이동시 굵기 조절 함수
 function handleRangeChange(event) {
     const size = event.target.value;
     ctx.lineWidth = size;
 }
 
+// 채우기 버튼 클릭시 그리기 버튼으로 변경 다시 재클릭시 채우기로 변경
 function handleModeClick() {
     if (filling === true) {
         filling = false;
@@ -70,16 +76,20 @@ function handleModeClick() {
     }
 }
 
+// 채우기일때  캔버스를 클릭했을때  전체 배경색이 채워지는 함수
 function handleCanvasClick() {
     if (filling) {
         ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
 }
 
+// 오른쪽 마우스 클릭 방지
 function handleCM(event) {
     event.preventDefault();
 }
 
+
+// 저장하기 버튼 함수
 function handleSaveClick() {
     const image = canvas.toDataUrl();
     const link = document.createElement("a");
@@ -97,6 +107,7 @@ if (canvas) {
     canvas.addEventListener("contextmenu", handleCM)
 }
 
+// 같은 클래스 네임의 색상 선택 엘리먼트를 array에 넣고 각각 handleColorClick 함수 실행
 Array.from(colors).forEach(color => color.addEventListener("click", handleColorClick));
 
 if (range) {
